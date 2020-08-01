@@ -1,4 +1,4 @@
-module p2pshare
+module gitee.com/rocket049/p2pshare
 
 go 1.14
 
