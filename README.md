@@ -1,6 +1,8 @@
 # 基于 libp2p 的文件共享和聊天程序
 
-启动命令为：`./p2pshare -name <名字>`
+编译命令：`go get -v gitee.com/rocket049/p2pshare`
+
+启动命令为`./p2pshare -name <名字>`
 
 启动后首先要求输入密码，对于第一次使用的名字，该密码将会用于设置密码，后续登录会验证密码。
 
