@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+	"time"
 
 	"gitee.com/rocket049/mycrypto"
 
@@ -271,7 +272,14 @@ func main() {
 		panic(err)
 	}
 	routingDiscovery := discovery.NewRoutingDiscovery(kademliaDHT)
-	routingDiscovery.Advertise(ctx, config.RendezvousString)
+	d, _ := routingDiscovery.Advertise(ctx, config.RendezvousString)
+	go func() {
+		t := time.NewTicker(d)
+		for {
+			<-t.C
+			routingDiscovery.Advertise(ctx, config.RendezvousString)
+		}
+	}()
 
 	//discovery.Advertise(ctx, routingDiscovery, config.RendezvousString)
 	logger.Info("Successfully announced!")
