@@ -13,8 +13,10 @@
 ```
 成功连接 bootstrap 节点: {QmdVoz8Y6QfKxvQ7nuC37JduuoAekeYDnzL46mBKa42XNM: [/ip4/148.70.58.15/tcp/4001]}
 功能：使用libp2p共享文件和聊天。
-启动：
+客户端模式启动：
 	./p2pshare -name <名字>
+服务器模式启动：
+	./p2pshare -pub -nocrypt
 Commands:
 	find <keyword>  -- 从网络中查找文件，返回搜索结果"p2p-ID:path/to/file"
 	get <p2p-ID:path/to/file>  -- 从对方节点下载文件

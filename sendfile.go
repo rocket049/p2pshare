@@ -83,6 +83,7 @@ func recvfile(r io.Reader, filename string) error {
 	defer fp.Close()
 	hash := md5.New()
 	var dataLen int64 = 0
+	fmt.Println("")
 	for {
 		var data1 FileData
 		err = gobDec.Decode(&data1)
@@ -97,8 +98,10 @@ func recvfile(r io.Reader, filename string) error {
 		}
 		hash.Write(uzdata)
 		fp.Write(uzdata)
+		fmt.Printf("\r%d/%d        ", dataLen, header.Size)
 		if dataLen == header.Size {
 			//fmt.Println("recv success full")
+			fmt.Println("")
 			break
 		}
 		if dataLen > header.Size {
