@@ -2,7 +2,11 @@
 
 编译命令：`go get -v gitee.com/rocket049/p2pshare`
 
-启动命令为`./p2pshare -name <名字>`
+客户端模式启动：
+	`./p2pshare -name <名字>`
+	
+服务器模式启动：
+	`./p2pshare -pub -nocrypt`
 
 启动后首先要求输入密码，对于第一次使用的名字，该密码将会用于设置密码，后续登录会验证密码。
 
@@ -13,10 +17,8 @@
 ```
 成功连接 bootstrap 节点: {QmdVoz8Y6QfKxvQ7nuC37JduuoAekeYDnzL46mBKa42XNM: [/ip4/148.70.58.15/tcp/4001]}
 功能：使用libp2p共享文件和聊天。
-客户端模式启动：
+启动：
 	./p2pshare -name <名字>
-服务器模式启动：
-	./p2pshare -pub -nocrypt
 Commands:
 	find <keyword>  -- 从网络中查找文件，返回搜索结果"p2p-ID:path/to/file"
 	get <p2p-ID:path/to/file>  -- 从对方节点下载文件
