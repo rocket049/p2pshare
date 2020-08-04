@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"sync"
 	"time"
@@ -102,7 +103,12 @@ func echoData(stream network.Stream) {
 		}
 	case "msg":
 		if containName(denyList, stream.Conn().RemotePeer().String()) == false {
-			fmt.Printf("\x1b[32m%s : %s\x1b[0m\n> ", stream.Conn().RemotePeer().String(), args[1])
+			if runtime.GOOS == "windows" {
+				fmt.Printf("%s : %s\n> ", stream.Conn().RemotePeer().String(), args[1])
+			} else {
+				fmt.Printf("\x1b[32m%s : %s\x1b[0m\n> ", stream.Conn().RemotePeer().String(), args[1])
+			}
+
 		}
 
 		stream.Close()
@@ -111,7 +117,12 @@ func echoData(stream network.Stream) {
 			talkStream.Close()
 		}
 		talkStream = stream
-		fmt.Printf("\x1b[32mtalk connected : %s\x1b[0m> ", args[1])
+		if runtime.GOOS == "windows" {
+			fmt.Printf("talk connected : %s\n> ", args[1])
+		} else {
+			fmt.Printf("\x1b[32mtalk connected : %s\x1b[0m\n> ", args[1])
+		}
+
 		trw := bufio.NewReadWriter(bufio.NewReader(stream), bufio.NewWriter(stream))
 		go readData(trw)
 		return
@@ -140,7 +151,12 @@ func readData(rw *bufio.ReadWriter) {
 			return
 		}
 		if str != "\n" {
-			fmt.Printf("\x1b[32m%s\x1b[0m> ", str)
+			if runtime.GOOS == "windows" {
+				fmt.Printf("%s\n> ", str)
+			} else {
+				fmt.Printf("\x1b[32m%s\x1b[0m> ", str)
+			}
+
 		}
 
 	}
@@ -164,7 +180,12 @@ func search(stream network.Stream, key string) {
 		if str != "\n" {
 			// Green console colour: 	\x1b[32m
 			// Reset console colour: 	\x1b[0m
-			fmt.Printf("\x1b[32m%s\x1b[0m> ", str)
+			if runtime.GOOS == "windows" {
+				fmt.Printf("%s\n> ", str)
+			} else {
+				fmt.Printf("\x1b[32m%s\x1b[0m\n> ", str)
+			}
+
 		}
 
 	}
@@ -450,7 +471,12 @@ func sendCmdShowEcho(stream network.Stream, cmdstr string) {
 		if err != nil {
 			break
 		} else {
-			fmt.Printf("\x1b[32m%s\x1b[0m> ", str)
+			if runtime.GOOS == "windows" {
+				fmt.Printf("%s\n> ", str)
+			} else {
+				fmt.Printf("\x1b[32m%s\x1b[0m\n> ", str)
+			}
+
 		}
 	}
 
