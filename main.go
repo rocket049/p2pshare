@@ -272,17 +272,26 @@ func main() {
 		panic(err)
 	}
 	routingDiscovery := discovery.NewRoutingDiscovery(kademliaDHT)
-	d, _ := routingDiscovery.Advertise(ctx, config.RendezvousString)
+
 	go func() {
-		t := time.NewTicker(d)
 		for {
-			<-t.C
-			routingDiscovery.Advertise(ctx, config.RendezvousString)
+			d, err := routingDiscovery.Advertise(ctx, config.RendezvousString)
+			if err != nil {
+				logger.Info(err.Error())
+			} else {
+				time.Sleep(d)
+			}
+
 		}
 	}()
 
 	//discovery.Advertise(ctx, routingDiscovery, config.RendezvousString)
 	logger.Info("Successfully announced!")
+
+	if *pub {
+		select {}
+		return
+	}
 
 	fmt.Println(helpMsg, sharePath)
 
