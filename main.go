@@ -101,6 +101,10 @@ func echoData(stream network.Stream) {
 		if strings.Contains(Name, args[1]) {
 			rw.WriteString(fmt.Sprintf("%s -> %s\n", stream.Conn().LocalPeer().String(), Name))
 		}
+	case "list":
+		if len(Name) > 0 {
+			rw.WriteString(fmt.Sprintf("%s -> %s\n", stream.Conn().LocalPeer().String(), Name))
+		}
 	case "msg":
 		if containName(denyList, stream.Conn().RemotePeer().String()) == false {
 			if runtime.GOOS == "windows" {
@@ -331,10 +335,12 @@ func main() {
 			if strings.TrimSpace(sendData) == "exit" {
 				break
 			}
-			if len(sendData) > 0 {
+			switch strings.TrimSpace(sendData) {
+			case "list":
+				queryDht(host, routingDiscovery, ctx, &config, sendData+"\n")
+			default:
 				fmt.Println("error command")
 			}
-
 			continue
 		}
 		switch args[0] {
